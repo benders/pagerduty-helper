@@ -1,0 +1,6 @@
+A basic Sinatra app for viewing your PagerDuty on-call schedules as iCalendar files.
+
+Copy the pd_helper.yml.example to pd_helper.yml and customize with your own settings.
+
+Run like this to test it out:
+  bundle exec ruby pd_helper.rb
