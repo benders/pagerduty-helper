@@ -1,0 +1,11 @@
+pagerduty_domain: yourdomain
+pagerduty_user: pduser@yourdomain.com
+pagerduty_pass: pdusers_password
+
+this_site: http://pagerduty-helper.yourdomain.com
+
+on_call_schedules:
+  P123ABC: Gold Customer Phone Support (Primary)
+  PCBA321: Gold Customer Phone Support (Secondary)
+  P1BA32C: Primary On-Call
+  P21A3CB: Secondary On-Call

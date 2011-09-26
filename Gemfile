@@ -1,0 +1,7 @@
+# A sample Gemfile
+source "http://rubygems.org"
+
+gem "json"
+gem "sinatra"
+gem "thin"
+gem "haml"
