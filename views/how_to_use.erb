@@ -1,0 +1,33 @@
+<h1>PagerDuty Helper</h1>
+<p>
+  You can view your on-call schedule in your Google Calendar by adding it as an external calendar.
+</p>
+<p>
+  The URL will look like this:
+  <br />
+  <tt><%= THIS_SITE %>/users/&lt;user-id&gt;.ics</tt>
+</p>
+<h3>Finding your PagerDuty User ID</h3>
+<p>
+  Log in to the PagerDuty site (
+  <a href='https://<%= SUBDOMAIN %>.pagerduty.com/'><tt>https://<%= SUBDOMAIN %>.pagerduty.com/</tt></a>
+  ) and click "My Profile", the final component of the URL is your "User ID".
+  <br />
+  It should be a seven character string starting with "P".
+</p>
+<p>
+  <img src='profile.png' />
+  <br />
+</p>
+<h3>Adding it to Google Calendar</h3>
+<p>
+  In the "Other Calendars" section click "Add", and choose "Add By URL".
+</p>
+<p>
+  Then use this URL, with your "User ID":
+  <br />
+  <tt><%= THIS_SITE %>/users/&lt;user-id&gt;.ics</tt>
+</p>
+<p>
+  <img src='calendar.png' />
+</p>

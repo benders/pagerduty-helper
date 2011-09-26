@@ -9,7 +9,6 @@ require 'time'
 require 'json'
 require 'sinatra'
 require 'erb'
-require 'haml'
 require 'yaml'
 
 since_date = (Date.today - 14).to_s
@@ -30,7 +29,7 @@ THIS_SITE = config['this_site']
 Event = Struct.new(:summary, :start, :end, :url)
 
 get '/' do
-  haml :how_to_use
+  erb :how_to_use
 end
 
 get %r{/users/(P[A-Z0-9]+).ics} do |user_id|
