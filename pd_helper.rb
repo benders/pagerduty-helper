@@ -27,18 +27,17 @@ AUTH_PASS = config['pagerduty_pass']
 SCHEDULES = config['on_call_schedules']
 THIS_SITE = config['this_site']
 
+Event = Struct.new(:summary, :start, :end, :url)
+
 get '/' do
   haml :how_to_use
 end
 
 get %r{/users/(P[A-Z0-9]+).ics} do |user_id|
   content_type params[:text] ? :text : 'text/calendar'
-  content = <<-EOF
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//New Relic/PD Helper//NONSGML v1.0//EN
-X-WR-CALNAME:PagerDuty On-Call (#{user_id})
-  EOF
+  @user_id = user_id
+  @events = []
+
   SCHEDULES.each_pair do |schedule_id,schedule_name|
     api_url = "https://#{SUBDOMAIN}.pagerduty.com/api/v1/schedules/#{schedule_id}/entries"
     api_url += "?since=#{since_date}&until=#{until_date}&user_id=#{user_id}"
@@ -49,23 +48,15 @@ X-WR-CALNAME:PagerDuty On-Call (#{user_id})
     # start_time = Time.now
     response_string = `#{command}`
     # STDERR.print "\t(#{'%0.2f' % (Time.now - start_time)}s)\n"
-    begin
-      on_call = JSON.parse(response_string)
-    end
-    if on_call['entries'].any?
-      on_call['entries'].each do |entry|
-        content << <<-EOF_ICAL
-BEGIN:VEVENT
-SUMMARY:#{schedule_name}
-DTSTART:#{time_string(entry['start'])}
-DTEND:#{time_string(entry['end'])}
-URL:https://#{SUBDOMAIN}.pagerduty.com/schedule/rotations/#{schedule_id}
-TRANSP:TRANSPARENT
-END:VEVENT
-        EOF_ICAL
-      end
+    on_call = JSON.parse(response_string)
+    on_call['entries'].each do |entry|
+      event = Event.new
+      event.summary = schedule_name
+      event.start = time_string(entry['start'])
+      event.end = time_string(entry['end'])
+      event.url = "https://#{SUBDOMAIN}.pagerduty.com/schedule/rotations/#{schedule_id}"
+      @events << event
     end
   end
-  content << "END:VCALENDAR\n"
-  return content
+  erb :user_vcalendar
 end

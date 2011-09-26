@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//New Relic/PD Helper//NONSGML v1.0//EN
+X-WR-CALNAME:PagerDuty On-Call (<%= @user_id %>)
+<% @events.each do |event| %>
+BEGIN:VEVENT
+SUMMARY:<%= event.summary %>
+DTSTART:<%= event.start %>
+DTEND:<%= event.end %>
+URL:<%= event.url %>
+TRANSP:TRANSPARENT
+END:VEVENT
+<% end %>
+END:VCALENDAR
